@@ -4,8 +4,36 @@
   "description": "All-in-one set of organizational tools.",
   "author": "James Pietras <james.m.pietras@gmail.com>",
   "license": "UNLICENSED",
+  "main": "app.js",
   "private": true,
   "homepage": "https://github.com/jamespietras/compan#readme",
+  "keywords": ["organizational", "utility"],
+  "contributors": [
+    {
+      "name": "James Pietras",
+      "email": "james.m.pietras@gmail.com"
+    }
+  ],
+  "scripts": {
+    "check": "npm run check-log && npm run check-action && echo ''",
+    "check-action": "nsp check --output checkstyle || true",
+    "check-log": "npm run prefix && echo 'Checking dependencies...'",
+    "compress": "npm run compress-log && npm run compress-action",
+    "compress-action": "git gc || true",
+    "compress-log": "npm run prefix && echo 'Compressing git repository...'",
+    "prefix": "echo '\n\\033[1;97;104m[compan]\\033[0m \\c'",
+    "preinstall": "npm run compress",
+    "postinstall": "npm run resolve-confirmation && npm run check",
+    "resolve-confirmation": "npm run prefix && echo 'Dependencies resolved.'",
+    "start": "nodemon app.js --config nodemon.json || true"
+  },
+  "dependencies": {
+    "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "nsp": "^2.6.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jamespietras/compan.git"
