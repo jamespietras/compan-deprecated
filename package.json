@@ -7,7 +7,10 @@
   "main": "app.js",
   "private": true,
   "homepage": "https://github.com/jamespietras/compan#readme",
-  "keywords": ["organizational", "utility"],
+  "keywords": [
+    "organizational",
+    "utility"
+  ],
   "contributors": [
     {
       "name": "James Pietras",
@@ -21,18 +24,30 @@
     "compress": "npm run compress-log && npm run compress-action",
     "compress-action": "git gc || true",
     "compress-log": "npm run prefix && echo 'Compressing git repository...'",
+    "development": "webpack --watch --config webpack.dev.babel.js",
+    "development-log": "npm run prefix && echo 'Restarting built server...'",
     "prefix": "echo '\n\\033[1;97;104m[compan]\\033[0m \\c'",
     "preinstall": "npm run compress",
     "postinstall": "npm run resolve-confirmation && npm run check",
-    "resolve-confirmation": "npm run prefix && echo 'Dependencies resolved.'",
-    "start": "nodemon app.js --config nodemon.json || true"
+    "resolve-confirmation": "npm run prefix && echo 'Dependencies resolved.'"
   },
   "dependencies": {
-    "express": "^4.15.2"
+    "babel-core": "^6.24.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
+    "express": "^4.15.2",
+    "pm2": "^2.4.2",
+    "source-map-support": "^0.4.12",
+    "webpack": "^2.2.1",
+    "webpack-node-externals": "^1.5.4"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0",
-    "nsp": "^2.6.3"
+    "nsp": "^2.6.3",
+    "webpack-shell-plugin": "^0.5.0"
+  },
+  "babel": {
+    "plugins": [
+      "transform-es2015-modules-commonjs"
+    ]
   },
   "repository": {
     "type": "git",
