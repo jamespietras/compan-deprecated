@@ -1,6 +1,9 @@
 ## PACKAGES
 node_modules
 
+## BUILD
+build
+
 ## LOGS
 logs
 *.log
