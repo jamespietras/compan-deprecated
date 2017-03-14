@@ -28,6 +28,9 @@ const backendConfig = {
       dev: false
     })
   ],
+  resolve: {
+    extensions: ['.ts']
+  },
   module: {
     loaders: [
       {

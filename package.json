@@ -38,9 +38,12 @@
     "typings-log": "npm run prefix && echo 'Installing typings...'"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.55",
     "babel-core": "^6.24.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
+    "dotenv": "^4.0.0",
     "express": "^4.15.2",
+    "lodash": "^4.17.4",
     "pm2": "^2.4.2",
     "source-map-support": "^0.4.12",
     "ts-loader": "^2.0.1",
