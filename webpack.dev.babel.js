@@ -6,12 +6,13 @@ import WebpackShellPlugin from 'webpack-shell-plugin';
 
 const backendConfig = {
   target: 'node',
-  entry: ['./app.js'],
+  entry: './app.ts',
   output: {
     path: path.join(__dirname, 'build'),
-    filename: 'app.js'
+    filename: 'app.js',
+    libraryTarget: 'commonjs2'
   },
-  externals: nodeExternals(),
+  externals: [nodeExternals(), 'build', 'typings'],
   devtool: 'sourcemap',
   plugins: [
     new webpack.BannerPlugin({
@@ -22,11 +23,20 @@ const backendConfig = {
     new WebpackShellPlugin({
       onBuildEnd: [
         'npm run development-log',
-        'pm2 reload build/app.js --update-env'
+        'pm2 reload ./build/app.js --update-env'
       ],
       dev: false
     })
-  ]
+  ],
+  module: {
+    loaders: [
+      {
+        test: /\.ts?$/,
+        exclude: 'node_modules',
+        loader: 'ts-loader'
+      }
+    ]
+  }
 };
 
 export default [backendConfig];
