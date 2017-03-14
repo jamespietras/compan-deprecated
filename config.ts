@@ -35,5 +35,5 @@ function checkConfig(config: AppConfig): void {
   const configSize: number = _.size(_.keys(config));
   const definedConfigSize: number = _.size(_.keys(_.omitBy(config, _.isNil)));
 
-  if(configSize !== definedConfigSize) { process.exit(1); }
+  if(configSize !== definedConfigSize) { process.exit(0); }
 }
