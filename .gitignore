@@ -1,6 +1,9 @@
 ## PACKAGES
 node_modules
 
+## TYPINGS
+typings
+
 ## BUILD
 build
 

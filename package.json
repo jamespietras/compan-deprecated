@@ -18,9 +18,13 @@
     }
   ],
   "scripts": {
+    "addons": "npm run typings-log && npm run typings-action && npm run check",
     "check": "npm run check-log && npm run check-action && echo ''",
     "check-action": "nsp check --output checkstyle || true",
     "check-log": "npm run prefix && echo 'Checking dependencies...'",
+    "cleanup": "npm run cleanup-log && npm run cleanup-action && echo ''",
+    "cleanup-action": "rm -rf build node_modules typings",
+    "cleanup-log": "npm run prefix && echo 'Cleaning up...'",
     "compress": "npm run compress-log && npm run compress-action",
     "compress-action": "git gc || true",
     "compress-log": "npm run prefix && echo 'Compressing git repository...'",
@@ -28,8 +32,10 @@
     "development-log": "npm run prefix && echo 'Restarting built server...'",
     "prefix": "echo '\n\\033[1;97;104m[compan]\\033[0m \\c'",
     "preinstall": "npm run compress",
-    "postinstall": "npm run resolve-confirmation && npm run check",
-    "resolve-confirmation": "npm run prefix && echo 'Dependencies resolved.'"
+    "postinstall": "npm run resolve-confirmation && npm run addons",
+    "resolve-confirmation": "npm run prefix && echo 'Dependencies resolved.'",
+    "typings-action": "typings install",
+    "typings-log": "npm run prefix && echo 'Installing typings...'"
   },
   "dependencies": {
     "babel-core": "^6.24.0",
@@ -37,6 +43,8 @@
     "express": "^4.15.2",
     "pm2": "^2.4.2",
     "source-map-support": "^0.4.12",
+    "ts-loader": "^2.0.1",
+    "typescript": "^2.2.1",
     "webpack": "^2.2.1",
     "webpack-node-externals": "^1.5.4"
   },
