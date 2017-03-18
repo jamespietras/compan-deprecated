@@ -14,9 +14,10 @@ class Server {
 
   constructor() {
     this.app = express();
-
     this.loadConfig();
+
     this.enableSecurity();
+    this.enableViewEngine();
     this.launch();
   }
 
@@ -40,6 +41,11 @@ class Server {
     ];
 
     this.app.use(...(_.compact(securityMiddleware)));
+  }
+
+  private enableViewEngine(): void {
+    this.app.set('view engine', 'pug');
+    this.app.set('views', this.config.paths.views);
   }
 
   private loadConfig(): void {

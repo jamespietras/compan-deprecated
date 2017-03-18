@@ -15,6 +15,7 @@ export interface AppConfig {
 
 interface Paths {
   readonly enums: string;
+  readonly views: string;
 }
 
 interface Server {
@@ -28,7 +29,8 @@ export function buildConfig(): AppConfig {
   const config: AppConfig = {
     env: process.env.NODE_ENV,
     paths: {
-      enums: path.resolve(__dirname, './enums')
+      enums: path.resolve(__dirname, './enums'),
+      views: path.resolve(__dirname, './views')
     },
     server: {
       enableHttps: process.env.COMPAN_ENABLE_HTTPS === 'true',
