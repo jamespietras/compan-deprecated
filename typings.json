@@ -1,8 +1,11 @@
 {
   "dependencies": {
+    "chalk": "registry:dt/chalk#0.4.0+20161012090828",
     "express": "registry:dt/express#4.0.0+20170118060322",
     "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20170217184459",
+    "helmet": "registry:dt/helmet#0.0.0+20170310054102",
     "mime": "registry:dt/mime#0.0.0+20160428043022",
+    "prettyjson": "registry:dt/prettyjson#0.0.0+20160428043022",
     "serve-static": "registry:dt/serve-static#1.7.1+20161128184045"
   },
   "globalDependencies": {

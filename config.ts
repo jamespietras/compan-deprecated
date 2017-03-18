@@ -1,16 +1,25 @@
 import * as _ from 'lodash';
-import Environments from './enums/environments';
+import * as chalk from 'chalk';
 import * as path from 'path';
+import * as prettyjson from 'prettyjson';
 import * as process from 'process';
+
+import Environments from './enums/environments';
 
 export interface AppConfig {
   readonly env: Environments;
   readonly paths: Paths;
-  readonly port: number;
+  readonly server: Server;
+  readonly version: string;
 }
 
-export interface Paths {
+interface Paths {
   readonly enums: string;
+}
+
+interface Server {
+  readonly enableHttps: boolean;
+  readonly port: number;
 }
 
 export function buildConfig(): AppConfig {
@@ -21,9 +30,14 @@ export function buildConfig(): AppConfig {
     paths: {
       enums: path.resolve(__dirname, './enums')
     },
-    port: process.env.COMPAN_PORT
+    server: {
+      enableHttps: process.env.COMPAN_ENABLE_HTTPS === 'true',
+      port: process.env.COMPAN_PORT
+    },
+    version: process.env.COMPAN_VERSION
   };
 
+  logConfig(config);
   checkConfig(config);
 
   return config;
@@ -35,5 +49,10 @@ function checkConfig(config: AppConfig): void {
   const configSize: number = _.size(_.keys(config));
   const definedConfigSize: number = _.size(_.keys(_.omitBy(config, _.isNil)));
 
-  if(configSize !== definedConfigSize) { process.exit(0); }
+  if(configSize !== definedConfigSize) { process.exit(1); }
+}
+
+function logConfig(config: AppConfig): void {
+  console.log(`\n${chalk.white.bold.bgBlue('[compan]')} Server config:\n`);
+  console.log(prettyjson.render(config));
 }

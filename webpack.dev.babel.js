@@ -22,9 +22,7 @@ const backendConfig = {
     }),
     new WebpackShellPlugin({
       onBuildEnd: [
-        'npm run development-log',
-        'pm2 stop --silent ./build/app.js',
-        'pm2 start --silent ./build/app.js'
+        'bash ./development.sh'
       ],
       dev: false
     })
