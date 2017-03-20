@@ -6,15 +6,20 @@ import * as process from 'process';
 
 import Environments from './enums/environments';
 
-export interface AppConfig {
+interface AppConfig {
+  readonly database: Database;
   readonly env: Environments;
   readonly paths: Paths;
   readonly server: Server;
-  readonly version: string;
+}
+
+interface Database {
+  readonly uri: string;
 }
 
 interface Paths {
   readonly enums: string;
+  readonly logs: string;
   readonly views: string;
 }
 
@@ -23,20 +28,23 @@ interface Server {
   readonly port: number;
 }
 
-export function buildConfig(): AppConfig {
+function buildConfig(): AppConfig {
   require('dotenv').config();
 
   const config: AppConfig = {
+    database: {
+      uri: process.env.COMPAN_DATABASE_URI
+    },
     env: process.env.NODE_ENV,
     paths: {
       enums: path.resolve(__dirname, './enums'),
+      logs: path.resolve(__dirname, './logs'),
       views: path.resolve(__dirname, './views')
     },
     server: {
       enableHttps: process.env.COMPAN_ENABLE_HTTPS === 'true',
       port: process.env.COMPAN_PORT
-    },
-    version: process.env.COMPAN_VERSION
+    }
   };
 
   logConfig(config);
@@ -44,6 +52,8 @@ export function buildConfig(): AppConfig {
 
   return config;
 }
+
+export default buildConfig();
 
 ///// Implementation details
 

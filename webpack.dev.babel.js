@@ -17,7 +17,10 @@ const backendConfig = {
   },
   externals: [nodeExternals()],
   devtool: 'sourcemap',
-  resolve: { extensions: ['.ts'] },
+  resolve: {
+    extensions: ['.ts'],
+    modules: ['./node_modules', './']
+  },
   plugins: [
     new webpack.WatchIgnorePlugin([
       path.join(__dirname, 'build'),

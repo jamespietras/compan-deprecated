@@ -2,11 +2,11 @@ import * as _ from 'lodash';
 import * as express from 'express';
 import * as helmet from 'helmet';
 
-import { AppConfig, buildConfig } from './config';
+import config from 'config';
+import logger from 'modules/logger';
 
 class Server {
   public app: express.Application;
-  public config: AppConfig;
 
   public static bootstrap(): Server {
     return new Server();
@@ -14,7 +14,6 @@ class Server {
 
   constructor() {
     this.app = express();
-    this.loadConfig();
 
     this.enableSecurity();
     this.enableViewEngine();
@@ -32,7 +31,7 @@ class Server {
       helmet.ieNoOpen(),
       helmet.noSniff(),
       helmet.xssFilter(),
-      this.config.server.enableHttps ? helmet.hsts({
+      config.server.enableHttps ? helmet.hsts({
         maxAge: 63072000,
         includeSubdomains: true,
         force: true,
@@ -45,18 +44,14 @@ class Server {
 
   private enableViewEngine(): void {
     this.app.set('view engine', 'pug');
-    this.app.set('views', this.config.paths.views);
-  }
-
-  private loadConfig(): void {
-    this.config = buildConfig();
+    this.app.set('views', config.paths.views);
   }
 
   private launch(): void {
-    const port: number = this.config.server.port;
+    const port: number = config.server.port;
 
     this.app.listen(port, () => {
-      console.log(`Server bootstrap finished on port ${port}.`);
+      logger.server.info(`Server bootstrap finished on port ${port}.`);
     });
   }
 }

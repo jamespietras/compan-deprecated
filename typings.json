@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bytes": "registry:dt/bytes#2.4.0+20161128184045",
     "chalk": "registry:dt/chalk#0.4.0+20161012090828",
     "express": "registry:dt/express#4.0.0+20170118060322",
     "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20170217184459",
@@ -9,6 +10,7 @@
     "serve-static": "registry:dt/serve-static#1.7.1+20161128184045"
   },
   "globalDependencies": {
+    "moment": "registry:dt/moment#2.11.1+20161010105546",
     "node": "registry:dt/node#7.0.0+20170310052549"
   }
 }

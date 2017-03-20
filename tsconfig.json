@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,
     "module": "ES6",
     "newLine": "lf",
