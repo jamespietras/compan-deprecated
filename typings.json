@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "body-parser": "registry:dt/body-parser#1.16.0+20170307072947",
     "bytes": "registry:dt/bytes#2.4.0+20161128184045",
     "chalk": "registry:dt/chalk#0.4.0+20161012090828",
+    "cors": "registry:dt/cors#2.8.0+20170310225232",
     "express": "registry:dt/express#4.0.0+20170118060322",
     "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20170217184459",
     "helmet": "registry:dt/helmet#0.0.0+20170310054102",

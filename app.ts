@@ -1,4 +1,6 @@
 import * as _ from 'lodash';
+import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 import * as express from 'express';
 import * as helmet from 'helmet';
 
@@ -16,11 +18,21 @@ class Server {
     this.app = express();
 
     this.enableSecurity();
+    this.enableEssentialMiddleware();
     this.enableViewEngine();
+
     this.launch();
   }
 
   ///// Implementation details
+
+  private enableEssentialMiddleware(): void {
+    this.app.use(cors());
+    logger.server.info(`Cross origin policy enabled.`);
+
+    this.app.use(bodyParser.json());
+    logger.server.info(`Body parser enabled.`);
+  }
 
   private enableSecurity(): void {
     const securityMiddleware: Array<any> = [
@@ -40,6 +52,7 @@ class Server {
     ];
 
     this.app.use(...(_.compact(securityMiddleware)));
+    logger.server.info('Security middleware applied.');
   }
 
   private enableViewEngine(): void {
