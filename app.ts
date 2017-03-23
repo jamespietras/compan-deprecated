@@ -6,9 +6,10 @@ import * as helmet from 'helmet';
 
 import config from 'config';
 import logger from 'modules/logger';
+import router from 'modules/router';
 
 class Server {
-  public app: express.Application;
+  public readonly app: express.Application;
 
   public static bootstrap(): Server {
     return new Server();
@@ -20,6 +21,7 @@ class Server {
     this.enableSecurity();
     this.enableEssentialMiddleware();
     this.enableViewEngine();
+    this.enableRouting();
 
     this.launch();
   }
@@ -32,6 +34,11 @@ class Server {
 
     this.app.use(bodyParser.json());
     logger.server.info(`Body parser enabled.`);
+  }
+
+  private enableRouting(): void {
+    this.app.use(config.server.routingRoot, router);
+    logger.server.info('Routing enabled.');
   }
 
   private enableSecurity(): void {

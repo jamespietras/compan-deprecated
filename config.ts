@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import * as chalk from 'chalk';
+import * as flat from 'flat';
 import * as path from 'path';
 import * as prettyjson from 'prettyjson';
 import * as process from 'process';
@@ -18,14 +19,18 @@ interface Database {
 }
 
 interface Paths {
+  readonly controllers: string;
   readonly enums: string;
   readonly logs: string;
+  readonly routes: string;
+  readonly utilities: string;
   readonly views: string;
 }
 
 interface Server {
   readonly enableHttps: boolean;
   readonly port: number;
+  readonly routingRoot: string;
 }
 
 function buildConfig(): AppConfig {
@@ -37,13 +42,17 @@ function buildConfig(): AppConfig {
     },
     env: process.env.NODE_ENV,
     paths: {
+      controllers: path.resolve(__dirname, './controllers'),
       enums: path.resolve(__dirname, './enums'),
       logs: path.resolve(__dirname, './logs'),
+      routes: path.resolve(__dirname, './routes'),
+      utilities: path.resolve(__dirname, './utilities'),
       views: path.resolve(__dirname, './views')
     },
     server: {
       enableHttps: process.env.COMPAN_ENABLE_HTTPS === 'true',
-      port: process.env.COMPAN_PORT
+      port: process.env.COMPAN_PORT,
+      routingRoot: process.env.COMPAN_ROUTING_ROOT
     }
   };
 
@@ -58,8 +67,12 @@ export default buildConfig();
 ///// Implementation details
 
 function checkConfig(config: AppConfig): void {
-  const configSize: number = _.size(_.keys(config));
-  const definedConfigSize: number = _.size(_.keys(_.omitBy(config, _.isNil)));
+  const configSize: number = _.size(
+    _.keys(flat(config))
+  );
+  const definedConfigSize: number = _.size(
+    _.keys(_.omitBy(flat(config), _.isNil))
+  );
 
   if(configSize !== definedConfigSize) { process.exit(1); }
 }

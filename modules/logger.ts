@@ -10,8 +10,8 @@ import config from 'config';
 import Environments from 'enums/environments';
 
 class Logger {
-  readonly database: winston.LoggerInstance;
-  readonly server: winston.LoggerInstance;
+  public readonly database: winston.LoggerInstance;
+  public readonly server: winston.LoggerInstance;
 
   constructor() {
     setupLogFolder();
@@ -21,7 +21,7 @@ class Logger {
     this.server = this.getLoggerInstance(ApiModule.SERVER);
   }
 
-  getLoggerInstance(moduleName: ApiModule): winston.LoggerInstance {
+  private getLoggerInstance(moduleName: ApiModule): winston.LoggerInstance {
     const logger: winston.LoggerInstance = new winston.Logger();
 
     attachConsoleTransport(logger, moduleName);
