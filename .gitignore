@@ -7,6 +7,9 @@ typings
 ## BUILD
 build
 
+## LOCAL CONFIG
+.env
+
 ## LOGS
 logs
 *.log

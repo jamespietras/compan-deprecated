@@ -1,11 +1,23 @@
 {
   "dependencies": {
+    "body-parser": "registry:dt/body-parser#1.16.0+20170307072947",
+    "bytes": "registry:dt/bytes#2.4.0+20161128184045",
+    "chalk": "registry:dt/chalk#0.4.0+20161012090828",
+    "cors": "registry:dt/cors#2.8.0+20170310225232",
+    "cuid": "registry:dt/cuid#0.0.0+20160428043022",
     "express": "registry:dt/express#4.0.0+20170118060322",
     "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20170217184459",
+    "flat": "registry:dt/flat#0.0.0+20160620211513",
+    "helmet": "registry:dt/helmet#0.0.0+20170310054102",
+    "http-status-codes": "registry:dt/http-status-codes#1.0.5+20160428043022",
     "mime": "registry:dt/mime#0.0.0+20160428043022",
+    "prettyjson": "registry:dt/prettyjson#0.0.0+20160428043022",
+    "request-ip": "registry:dt/request-ip#0.0.0+20160726204056",
+    "response-time": "registry:dt/response-time#2.3.2+20161128184045",
     "serve-static": "registry:dt/serve-static#1.7.1+20161128184045"
   },
   "globalDependencies": {
+    "moment": "registry:dt/moment#2.11.1+20161010105546",
     "node": "registry:dt/node#7.0.0+20170310052549"
   }
 }
