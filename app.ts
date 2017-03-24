@@ -6,6 +6,7 @@ import * as helmet from 'helmet';
 
 import config from 'config';
 import logger from 'modules/logger';
+import requestLogger from 'middleware/requestLogger';
 import router from 'modules/router';
 
 class Server {
@@ -18,6 +19,7 @@ class Server {
   constructor() {
     this.app = express();
 
+    this.enableRequestLogger();
     this.enableSecurity();
     this.enableEssentialMiddleware();
     this.enableViewEngine();
@@ -34,6 +36,11 @@ class Server {
 
     this.app.use(bodyParser.json());
     logger.server.info(`Body parser enabled.`);
+  }
+
+  private enableRequestLogger(): void {
+    this.app.use(requestLogger());
+    logger.server.info(`Request logger enabled.`);
   }
 
   private enableRouting(): void {

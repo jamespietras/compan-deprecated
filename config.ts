@@ -22,6 +22,7 @@ interface Paths {
   readonly controllers: string;
   readonly enums: string;
   readonly logs: string;
+  readonly middleware: string;
   readonly routes: string;
   readonly utilities: string;
   readonly views: string;
@@ -45,6 +46,7 @@ function buildConfig(): AppConfig {
       controllers: path.resolve(__dirname, './controllers'),
       enums: path.resolve(__dirname, './enums'),
       logs: path.resolve(__dirname, './logs'),
+      middleware: path.resolve(__dirname, './middleware'),
       routes: path.resolve(__dirname, './routes'),
       utilities: path.resolve(__dirname, './utilities'),
       views: path.resolve(__dirname, './views')
