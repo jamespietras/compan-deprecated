@@ -15,6 +15,8 @@ interface AppConfig {
 }
 
 interface Database {
+  readonly mongos: boolean;
+  readonly poolSize: number;
   readonly uri: string;
 }
 
@@ -39,6 +41,8 @@ function buildConfig(): AppConfig {
 
   const config: AppConfig = {
     database: {
+      mongos: process.env.COMPAN_DATABASE_MONGOS === 'true',
+      poolSize: parseInt(process.env.COMPAN_DATABASE_POOL_SIZE),
       uri: process.env.COMPAN_DATABASE_URI
     },
     env: process.env.NODE_ENV,
@@ -53,7 +57,7 @@ function buildConfig(): AppConfig {
     },
     server: {
       enableHttps: process.env.COMPAN_ENABLE_HTTPS === 'true',
-      port: process.env.COMPAN_PORT,
+      port: parseInt(process.env.COMPAN_PORT),
       routingRoot: process.env.COMPAN_ROUTING_ROOT
     }
   };

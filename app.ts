@@ -3,8 +3,11 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as helmet from 'helmet';
+import * as mongoose from 'mongoose';
+import * as process from 'process';
 
 import config from 'config';
+import { Deferred, defer } from 'utilities/toolbox';
 import logger from 'modules/logger';
 import requestLogger from 'middleware/requestLogger';
 import router from 'modules/router';
@@ -19,16 +22,34 @@ class Server {
   constructor() {
     this.app = express();
 
-    this.enableRequestLogger();
-    this.enableSecurity();
-    this.enableEssentialMiddleware();
-    this.enableViewEngine();
-    this.enableRouting();
+    this.initDatabase().then(() => {
+      logger.database.info('Database connection established.');
 
-    this.launch();
+      this.attachTerminationHandlers();
+
+      this.enableRequestLogger();
+      this.enableSecurity();
+      this.enableEssentialMiddleware();
+      this.enableViewEngine();
+      this.enableRouting();
+
+      this.launch();
+    }).catch((error) => {
+      logger.database.error('Database connection error.', error);
+      process.exit(0);
+    });
   }
 
   ///// Implementation details
+
+  private attachTerminationHandlers(): void {
+    process.on('SIGINT', () => {
+      mongoose.connection.close().then(() => {
+        logger.database.info(`Database connection closed gracefully.`);
+        process.exit(0);
+      });
+    });
+  }
 
   private enableEssentialMiddleware(): void {
     this.app.use(cors());
@@ -72,6 +93,30 @@ class Server {
   private enableViewEngine(): void {
     this.app.set('view engine', 'pug');
     this.app.set('views', config.paths.views);
+  }
+
+  private initDatabase(): Promise<any> {
+    const deferred: Deferred = defer();
+
+    (<any>mongoose).Promise = Promise;
+    const db = mongoose.connection;
+    db.on('error', deferred.reject);
+    db.once('connected', deferred.resolve);
+
+    mongoose.connect(config.database.uri, {
+      mongos: config.database.mongos,
+      replset: {
+        poolSize: config.database.poolSize
+      },
+      server: {
+        poolSize: config.database.poolSize,
+        reconnectInterval: 500,
+        reconnectTries: 60,
+        socketOptions: { keepAlive: 120 }
+      }
+    });
+
+    return deferred.promise;
   }
 
   private launch(): void {
