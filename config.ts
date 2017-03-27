@@ -26,6 +26,7 @@ interface Paths {
   readonly logs: string;
   readonly middleware: string;
   readonly routes: string;
+  readonly schemas: string;
   readonly utilities: string;
   readonly views: string;
 }
@@ -52,6 +53,7 @@ function buildConfig(): AppConfig {
       logs: path.resolve(__dirname, './logs'),
       middleware: path.resolve(__dirname, './middleware'),
       routes: path.resolve(__dirname, './routes'),
+      schemas: path.resolve(__dirname, './schemas'),
       utilities: path.resolve(__dirname, './utilities'),
       views: path.resolve(__dirname, './views')
     },

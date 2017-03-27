@@ -7,7 +7,7 @@ import * as mongoose from 'mongoose';
 import * as process from 'process';
 
 import config from 'config';
-import { Deferred, defer } from 'utilities/toolbox';
+import database from 'modules/database';
 import logger from 'modules/logger';
 import requestLogger from 'middleware/requestLogger';
 import router from 'modules/router';
@@ -22,10 +22,9 @@ class Server {
   constructor() {
     this.app = express();
 
-    this.initDatabase().then(() => {
-      logger.database.info('Database connection established.');
-
+    database.init().then(() => {
       this.attachTerminationHandlers();
+      database.generateModels();
 
       this.enableRequestLogger();
       this.enableSecurity();
@@ -34,9 +33,6 @@ class Server {
       this.enableRouting();
 
       this.launch();
-    }).catch((error) => {
-      logger.database.error('Database connection error.', error);
-      process.exit(0);
     });
   }
 
@@ -49,6 +45,7 @@ class Server {
         process.exit(0);
       });
     });
+    logger.server.info('Termination handlers attached.');
   }
 
   private enableEssentialMiddleware(): void {
@@ -93,30 +90,6 @@ class Server {
   private enableViewEngine(): void {
     this.app.set('view engine', 'pug');
     this.app.set('views', config.paths.views);
-  }
-
-  private initDatabase(): Promise<any> {
-    const deferred: Deferred = defer();
-
-    (<any>mongoose).Promise = Promise;
-    const db = mongoose.connection;
-    db.on('error', deferred.reject);
-    db.once('connected', deferred.resolve);
-
-    mongoose.connect(config.database.uri, {
-      mongos: config.database.mongos,
-      replset: {
-        poolSize: config.database.poolSize
-      },
-      server: {
-        poolSize: config.database.poolSize,
-        reconnectInterval: 500,
-        reconnectTries: 60,
-        socketOptions: { keepAlive: 120 }
-      }
-    });
-
-    return deferred.promise;
   }
 
   private launch(): void {
